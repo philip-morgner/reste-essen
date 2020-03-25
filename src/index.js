@@ -1,12 +1,22 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
+import React from "react";
+import ReactDOM from "react-dom";
+import { Route, BrowserRouter as Router } from "react-router-dom";
+import "bulma/css/bulma.css";
 
-ReactDOM.render(<App />, document.getElementById('root'));
+import Layout from "./client/pages/Layout";
+import Init from "./client/pages/Init";
+import FindRecipesPage from "./client/pages/FindRecipesPage";
+import Home from "./client/pages/Home";
+import AddRecipesPage from "./client/pages/FindRecipesPage";
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
+const appRouter = (
+  <Router>
+    <Route path="/" component={Layout} />
+    <Route exact path="/" component={Init} />
+    <Route exact path="/home" component={Home} />
+    <Route path="/find-recipe" component={FindRecipesPage} />
+    <Route exact path="/add-recipe" component={FindRecipesPage} />
+  </Router>
+);
+
+ReactDOM.render(appRouter, document.getElementById("root"));

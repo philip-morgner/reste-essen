@@ -1,12 +1,13 @@
 import React from "react";
-import { isEmpty, times } from "ramda";
-import classnames from "classnames";
+import { Eclipse } from "react-loading-io";
+import { isEmpty, pathOr } from "ramda";
 import { css } from "glamor";
+import classnames from "classnames";
 
-import { t } from "../translationKeys";
 import { postData } from "../utils/postData";
 
-import ListCell from "../components/ListCellComponent";
+import IngredientsDropdown from "../components/Ingredient/IngredientsDropdownComponent";
+import IngredientsList from "../components/Ingredient/IngredientsListComponent";
 import RecipeList from "../components/Recipe/RecipeListComponent";
 
 const gridStyle = css({
@@ -15,20 +16,7 @@ const gridStyle = css({
   justifyItems: "center",
 });
 
-const borderStyle = css({
-  padding: "0 1.5vw",
-  borderRight: "1px dotted grey",
-  borderLeft: "1px dotted grey",
-});
-
-const adjustWidth = css({
-  width: "30vw",
-});
-
-const hoverStyle = css({
-  cursor: "pointer",
-  ":hover": { backgroundColor: "#EEEEEE" },
-});
+const errorStyle = css({ alignSelf: "start !important" });
 
 const URL_RECIPES = "http://localhost:3001";
 const URL_INGREDIENTS = "http://localhost:3001";
@@ -39,25 +27,52 @@ class FindRecipesPage extends React.Component {
     text: "",
     recipes: [],
     ingredients: [],
+    loading: false,
+    error: false,
+    mode: "",
   };
 
   async componentDidMount() {
     const ingredients = await fetch(URL_INGREDIENTS)
       .then(data => data.json())
       .catch(err => console.log("ERROR in server communication", err.message));
-    console.log(
-      "FindRecipesPage -> componentDidMount -> ingredients",
-      ingredients
-    );
+
+    const backup = pathOr({}, ["location", "state"], this.props);
+    let recipes = [];
+
+    if (!isEmpty(backup)) {
+      const body = JSON.stringify({
+        ingredients: backup.availableIngr,
+        mode: backup.mode,
+      });
+
+      try {
+        let data = await postData(URL_RECIPES, body);
+
+        if (data !== undefined) {
+          recipes = await data.json();
+          //  (2) hack to restore state after navigation and it worked
+          this.setState({
+            recipes,
+            availableIngr: backup.availableIngr,
+            mode: backup.mode,
+          });
+          /* eslint-disable-next-line */
+          history.replaceState("/find-recipe", null);
+        }
+      } catch (err) {
+        console.log("ERROR in server communication", err.message);
+      }
+    }
 
     this.setState({ ingredients });
   }
 
-  handleChange = e => {
-    this.setState({ text: e.target.value });
+  handleInputChange = text => {
+    this.setState({ text });
   };
 
-  handleClick = ingredient => () => {
+  handleDropdownClick = ingredient => {
     this.setState(prev => ({
       availableIngr: [...prev.availableIngr, { ...ingredient, amount: 0 }],
       text: "",
@@ -71,15 +86,23 @@ class FindRecipesPage extends React.Component {
       mode,
     });
 
+    this.setState({ loading: true, recipes: [], error: false, mode });
+
     try {
       let data = await postData(URL_RECIPES, body);
+
       if (data !== undefined) {
-        const recipes = await data.json();
-        console.log("RESULT", recipes);
-        this.setState({ recipes });
+        let recipes = await data.json();
+
+        if (isEmpty(recipes)) {
+          this.setState({ error: true, loading: false });
+        } else {
+          this.setState({ recipes, loading: false, error: false });
+        }
       }
     } catch (err) {
       console.log("ERROR in server communication", err.message);
+      this.setState({ loading: false });
     }
   };
 
@@ -97,101 +120,52 @@ class FindRecipesPage extends React.Component {
     }));
   };
 
-  getFilteredIngredients = () => {
-    const { text, availableIngr, ingredients } = this.state;
-    const lowerCaseText = text.toLowerCase();
-
-    return ingredients.filter(({ name }) => {
-      const lowerCaseName = name.toLowerCase();
-      return (
-        // user input matches ingredient
-        lowerCaseName.includes(lowerCaseText) &&
-        // ingredient is NOT already in state
-        !availableIngr.some(({ name }) => name.toLowerCase() === lowerCaseName)
-      );
-    });
+  dismissError = () => {
+    this.setState({ error: false });
   };
 
-  renderDropdownItem = (item, i) => (
-    <div
-      key={i}
-      className={classnames("dropdown-item", `${hoverStyle}`)}
-      onClick={this.handleClick(item)}>
-      <p>{item.name}</p>
+  renderErrorNotification = () => (
+    <div className={classnames("notification is-danger", `${errorStyle}`)}>
+      <button className="delete" onClick={this.dismissError}></button>
+      There are no recipes available with your ingredients,
+      <strong> better buy some more stuff!</strong> Or check your fridge :)
     </div>
   );
 
-  renderEmptyListCell = i => <ListCell key={i} isEmpty />;
-
-  renderListStructure = length => times(this.renderEmptyListCell, length);
-
-  // make component
-  renderSummary = availableIngr =>
-    availableIngr.map((ingredient, i) => (
-      <ListCell
-        key={i}
-        value={ingredient}
-        onRemove={this.handleRemoveItem}
-        onChange={this.handleAmountInput}
-        isIngredientCell
-      />
-    ));
-
   render() {
-    const { text, availableIngr, recipes } = this.state;
-    const filteredIngredients = this.getFilteredIngredients();
-    const showDropdown = filteredIngredients.length && text.length;
+    const {
+      text,
+      availableIngr,
+      recipes,
+      loading,
+      ingredients,
+      error,
+      mode,
+    } = this.state;
     const showRecipes = !isEmpty(recipes);
-    const previewListLength =
-      availableIngr.length <= 10 ? 10 - availableIngr.length : 0;
+    //  (1) hack to restore state after navigation
+    const backupState = { availableIngr, mode };
 
     return (
       <div className={gridStyle}>
-        <div>
-          <h6 className="title is-6">Was hast du denn noch da zum Kochen?</h6>
-          <div className={classnames("dropdown", showDropdown && "is-active")}>
-            <div className="dropdown-trigger">
-              <div className="field">
-                <div className="control">
-                  <input
-                    onChange={this.handleChange}
-                    className={classnames("input", `${adjustWidth}`)}
-                    type="text"
-                    placeholder="Zutat..."
-                    aria-haspopup="true"
-                    aria-controls="menu"
-                    value={text}
-                  />
-                </div>
-              </div>
-            </div>
-            <div className="dropdown-menu" id="menu" role="menu">
-              <div className={classnames("dropdown-content", `${adjustWidth}`)}>
-                {filteredIngredients.map((item, i) =>
-                  this.renderDropdownItem(item, i)
-                )}
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className={borderStyle}>
-          <h6 className="title is-6">Machen wir mal ne Liste...</h6>
-          <div className="list">
-            {this.renderSummary(availableIngr)}
-            {this.renderListStructure(previewListLength)}
-          </div>
-          <button
-            className="button is-link is-pulled-left"
-            onClick={this.handleSubmit("explore")}>
-            {t("explore")}
-          </button>
-          <button
-            className="button is-success is-pulled-right"
-            onClick={this.handleSubmit("exact")}>
-            {t("exact")}
-          </button>
-        </div>
-        {showRecipes && <RecipeList recipes={recipes} />}
+        <IngredientsDropdown
+          text={text}
+          availableIngr={availableIngr}
+          ingredients={ingredients}
+          onChange={this.handleInputChange}
+          onClick={this.handleDropdownClick}
+        />
+        <IngredientsList
+          availableIngr={availableIngr}
+          onSubmit={this.handleSubmit}
+          onChange={this.handleAmountInput}
+          onRemove={this.handleRemoveItem}
+        />
+        {loading && <Eclipse size={32} />}
+        {showRecipes && (
+          <RecipeList recipes={recipes} backupState={backupState} />
+        )}
+        {error && this.renderErrorNotification()}
       </div>
     );
   }

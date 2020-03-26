@@ -21,9 +21,7 @@ const overflowStyle = css({
   whiteSpace: "nowrap",
 });
 
-class IngredientListCellComponent extends React.Component {
-  state = {};
-
+class IngredientComponent extends React.PureComponent {
   handleChange = (name, onChange) => e => {
     const amount = e.target.value;
 
@@ -33,7 +31,8 @@ class IngredientListCellComponent extends React.Component {
   render() {
     const { ingredient, onChange, onRemove } = this.props;
     const { name, measure } = ingredient;
-    const measureLabel = measure === "absolut" ? "Stück" : measure;
+    const measureLabel = measure === "absolute" ? "Stück" : measure;
+    const numberInputStep = measure === "absolute" ? 1 : 50;
 
     return (
       <div className={ingredientListCellStyle}>
@@ -45,6 +44,8 @@ class IngredientListCellComponent extends React.Component {
             className="input is-small"
             id={name}
             type="number"
+            step={numberInputStep}
+            min="0"
             placeholder="amount"
             onChange={this.handleChange(name, onChange)}
           />
@@ -56,4 +57,4 @@ class IngredientListCellComponent extends React.Component {
   }
 }
 
-export default IngredientListCellComponent;
+export default IngredientComponent;

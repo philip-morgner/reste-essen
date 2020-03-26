@@ -12,15 +12,6 @@ const adjustWidth = css({
   width: "30vw",
 });
 
-const adjustHeight = css({
-  fontSize: "2.5em",
-});
-
-const hoverStyle = css({
-  cursor: "pointer",
-  ":hover": { backgroundColor: "#EEEEEE" },
-});
-
 const PREP_TIME_FILTERS = ["fast", "slow", "both"];
 const VEGGIE_FILTERS = ["all", "vegetarian", "vegan"];
 
@@ -62,7 +53,9 @@ class RecipeListComponent extends React.Component {
       } = r;
       const { veggie: veggieState } = this.state;
 
-      return veggie === veggieState;
+      return veggieState === "vegetarian"
+        ? !isEmpty(veggie)
+        : veggieState === veggie;
     });
   };
 
@@ -83,20 +76,29 @@ class RecipeListComponent extends React.Component {
     return filteredRecipes;
   };
 
-  renderRecipes = recipes => {
-    return recipes.map((r, i) => (
-      <ListCell key={i} value={r.name} isRecipeCell />
-    ));
+  renderRecipes = (recipes, backupState) => {
+    return recipes.map(
+      ({ name, recipe_id: recipeId, filters: { duration } }, i) => (
+        <ListCell
+          key={i}
+          value={{ name, duration, recipeId }}
+          isRecipeCell
+          backupState={backupState}
+        />
+      )
+    );
   };
 
   render() {
-    const { recipes } = this.props;
+    const { recipes, backupState } = this.props;
     const { prepTime, veggie } = this.state;
+
     const showRecipes = !isEmpty(recipes);
     const filteredRecipes = this.filterRecipes(recipes);
 
     const selectedPrepTime = isEmpty(prepTime) ? "both" : prepTime;
     const selectedVeggie = isEmpty(veggie) ? "all" : veggie;
+
     return (
       <div>
         <h6 className="title is-6">Rezepte</h6>
@@ -111,7 +113,7 @@ class RecipeListComponent extends React.Component {
           selected={selectedVeggie}
         />
         <div className={classnames(showRecipes && "list", `${adjustWidth}`)}>
-          {this.renderRecipes(filteredRecipes)}
+          {this.renderRecipes(filteredRecipes, backupState)}
         </div>
       </div>
     );

@@ -49,7 +49,6 @@ const exploreRecipes = availableIngr => {
 };
 
 app.post("/", function(req, res) {
-  console.log("REQ BODY", req.body);
   const { ingredients, mode = "exact" } = req.body;
   let filteredRecipes;
   if (mode === "exact") {
@@ -60,6 +59,17 @@ app.post("/", function(req, res) {
   }
 
   res.send(filteredRecipes);
+});
+
+const getRecipe = recipeId => {
+  return recipes.find(({ recipe_id }) => recipe_id === recipeId);
+};
+
+app.get("/:recipeId", (req, res) => {
+  const { recipeId } = req.params;
+  const recipe = getRecipe(recipeId);
+
+  res.send(recipe);
 });
 
 app.listen(PORT);

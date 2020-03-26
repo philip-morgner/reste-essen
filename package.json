@@ -10,11 +10,13 @@
     "bulma": "^0.8.0",
     "classnames": "^2.2.6",
     "cors": "^2.8.5",
+    "crypto": "^1.0.1",
     "express": "^4.17.1",
     "glamor": "^2.20.40",
     "ramda": "^0.27.0",
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
+    "react-loading-io": "^2.2.1",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.4.0"
   },

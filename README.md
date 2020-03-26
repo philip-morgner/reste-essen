@@ -2,7 +2,7 @@
 
 **Clone the Repository:**
 
-### `git clone https://github.com/philip-morgner/reste-essen`
+`git clone https://github.com/philip-morgner/reste-essen`
 
 **Start the Server**
 

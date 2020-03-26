@@ -4,10 +4,10 @@ import { css, media } from "glamor";
 import { init } from "../translationKeys";
 import { titleStyle } from "../styles";
 
-import german from "../../country_flags/Flag_of_Germany.svg";
-import english from "../../country_flags/Flag_of_the_United_States_and_United_Kingdom.png";
-import spanish from "../../country_flags/Flag_of_Spain.svg";
-import italian from "../../country_flags/Flag_of_Italy.svg";
+import german from "../country_flags/Flag_of_Germany.svg";
+import english from "../country_flags/Flag_of_the_United_States_and_United_Kingdom.png";
+import spanish from "../country_flags/Flag_of_Spain.svg";
+import italian from "../country_flags/Flag_of_Italy.svg";
 
 const imgStyle = css(
   {
@@ -41,10 +41,10 @@ class Init extends React.PureComponent {
 
   render() {
     return [
-      <div className={titleStyle}>
+      <div key="init-subtitle" className={titleStyle}>
         <h3 className="subtitle is-3">Choose your Language</h3>
       </div>,
-      <div className={imgStyle}>
+      <div key="country-flags" className={imgStyle}>
         <img src={german} alt="Deutsch" onClick={this.handleClick("de")} />
         <img src={english} alt="English" onClick={this.handleClick("en")} />
         <img src={spanish} alt="Español" onClick={this.handleClick("es")} />

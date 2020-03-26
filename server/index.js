@@ -2,6 +2,10 @@ const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 
+// Example of Usage of crypto
+// const crypto = require("crypto")
+// const recipe_id = crypto.randomBytes(10).toString("hex");
+
 const recipes = require("./recipes.json");
 
 const app = express();

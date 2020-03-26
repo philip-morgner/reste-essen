@@ -33,10 +33,18 @@ class FindRecipesPage extends React.Component {
   };
 
   async componentDidMount() {
-    const ingredients = await fetch(URL_INGREDIENTS)
-      .then(data => data.json())
-      .catch(err => console.log("ERROR in server communication", err.message));
+    // (1) fetch ingredients for suggestions in dropdown
+    try {
+      let ingredients = await fetch(URL_INGREDIENTS).then(data => data.json());
 
+      this.setState({ ingredients });
+    } catch (err) {
+      console.log("ERROR in server communication", err.message);
+
+      this.props.history.push("/server-down");
+    }
+
+    // (2) fetch previous state after going back from navigating into a recipe (see (2) in render)
     const backup = pathOr({}, ["location", "state"], this.props);
     let recipes = [];
 
@@ -51,21 +59,19 @@ class FindRecipesPage extends React.Component {
 
         if (data !== undefined) {
           recipes = await data.json();
-          //  (2) hack to restore state after navigation and it worked
+
           this.setState({
             recipes,
             availableIngr: backup.availableIngr,
             mode: backup.mode,
           });
-          /* eslint-disable-next-line */
-          history.replaceState("/find-recipe", null);
+          // (2) forget backup so after user reloads page is new/ empty
+          history.replaceState("/find-recipe", null); /* eslint-disable-line */
         }
       } catch (err) {
         console.log("ERROR in server communication", err.message);
       }
     }
-
-    this.setState({ ingredients });
   }
 
   handleInputChange = text => {
@@ -143,7 +149,7 @@ class FindRecipesPage extends React.Component {
       mode,
     } = this.state;
     const showRecipes = !isEmpty(recipes);
-    //  (1) hack to restore state after navigation
+    //  (2) hack to restore state after navigation into recipe
     const backupState = { availableIngr, mode };
 
     return (

@@ -1,23 +1,10 @@
 import React from "react";
-import { css } from "glamor";
 
-const ingredientListCellStyle = css({
-  display: "grid",
-  gridTemplateColumns: "10fr 6fr 4fr 1fr",
-  alignItems: "center",
-});
-
-const inputStyle = css({
-  justifySelf: "center",
-  display: "inline",
-  width: "80%",
-});
-
-const overflowStyle = css({
-  textOverflow: "ellipsis",
-  overflow: "hidden",
-  whiteSpace: "nowrap",
-});
+import {
+  ingredientListCellStyle,
+  inputStyle,
+  overflowStyle,
+} from "../../styles";
 
 class IngredientComponent extends React.PureComponent {
   handleChange = (name, onChange) => e => {

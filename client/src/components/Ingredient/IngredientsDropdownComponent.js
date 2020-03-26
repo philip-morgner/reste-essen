@@ -1,15 +1,7 @@
 import React from "react";
 import classnames from "classnames";
-import { css } from "glamor";
 
-const adjustWidth = css({
-  width: "30vw",
-});
-
-const hoverStyle = css({
-  cursor: "pointer",
-  ":hover": { backgroundColor: "#EEEEEE" },
-});
+import { adjustWidth, hoverStyle } from "../../styles";
 
 class IngredientsDropdownComponent extends React.PureComponent {
   handleChange = e => {

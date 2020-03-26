@@ -1,14 +1,10 @@
 import React from "react";
 import { isEmpty } from "ramda";
 import classnames from "classnames";
-import { css } from "glamor";
 
 import ListCell from "../ListCellComponent";
 import RecipeListFilter from "./RecipeListFilterComponent";
-
-const adjustWidth = css({
-  width: "30vw",
-});
+import { adjustWidth } from "../../styles";
 
 const PREP_TIME_FILTERS = ["fast", "slow", "both"];
 const VEGGIE_FILTERS = ["all", "vegetarian", "vegan"];

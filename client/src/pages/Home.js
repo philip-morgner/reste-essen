@@ -1,14 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { css } from "glamor";
 
-const flexStyle = css({
-  display: "flex",
-  justifyContent: "center",
-  "& button": {
-    margin: "80px 20px",
-  },
-});
+import { flexStyleWithButton as flexStyle } from "../styles";
 
 class Home extends React.PureComponent {
   render() {

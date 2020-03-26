@@ -7,5 +7,8 @@ export default () => (
       Es konnte keine Verbindung zum Server hergestellt werden. Derzeit ist der
       Server nicht aktiv, wir arbeiten an dem Problem.
     </h5>
+    <h5 className="subtitle is-5">
+      Bitte versuche es später noch einmal. Wir bitten um dein Verständnis.
+    </h5>
   </div>
 );

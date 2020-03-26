@@ -6,24 +6,11 @@ import { css } from "glamor";
 
 import ListCell from "../components/ListCellComponent";
 
-const centerStyle = css({
-  display: "flex",
-  justifyContent: "center",
-});
-
-const gridStyle = css({
-  display: "grid",
-  gridTemplateColumns: "1fr 2fr",
-  gridColumnGap: 8,
-  alignItems: "start",
-  margin: 32,
-});
-
-const flexColumnStyle = css({
-  display: "flex",
-  flexDirection: "column",
-  justifyContent: "sapce-evenly",
-});
+import {
+  centerStyle,
+  gridStyleRecipePage as gridStyle,
+  flexColumnStyle,
+} from "../styles";
 
 const GET_RECIPE_URL = "http://localhost:3001/";
 

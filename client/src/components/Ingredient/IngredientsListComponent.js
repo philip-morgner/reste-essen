@@ -1,19 +1,8 @@
 import React from "react";
 import { times } from "ramda";
-import { css, media } from "glamor";
 
 import ListCell from "../ListCellComponent";
-
-const flexStyle = css(
-  {
-    display: "flex",
-    justifyContent: "space-between",
-  },
-  media("(max-width: 800px)", {
-    flexDirection: "column",
-    alignItems: "center",
-  })
-);
+import { flexStyleIngredientsList as flexStyle } from "../../styles";
 
 class IngedientsListComponent extends React.PureComponent {
   renderEmptyListCell = i => <ListCell key={i} isEmpty />;

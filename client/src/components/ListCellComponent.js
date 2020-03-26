@@ -2,27 +2,14 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { omit } from "ramda";
 import classnames from "classnames";
-import { css } from "glamor";
 
 import Ingredient from "./Ingredient/IngredientComponent";
-
-const cellStyle = css({
-  width: "30vw",
-});
-
-const adjustHeight = css({
-  fontSize: "2.5em",
-});
-
-const flexStyle = css({
-  display: "flex",
-  justifyContent: "space-between",
-  color: "black",
-});
-
-const disableLinkStyle = css({
-  pointerEvents: "none",
-});
+import {
+  adjustWidth as cellStyle,
+  adjustHeight,
+  flexStyleWithColor as flexStyle,
+  disableLinkStyle,
+} from "../styles";
 
 class ListCellComponent extends React.PureComponent {
   render() {

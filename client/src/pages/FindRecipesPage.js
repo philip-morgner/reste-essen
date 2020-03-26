@@ -10,13 +10,7 @@ import IngredientsDropdown from "../components/Ingredient/IngredientsDropdownCom
 import IngredientsList from "../components/Ingredient/IngredientsListComponent";
 import RecipeList from "../components/Recipe/RecipeListComponent";
 
-const gridStyle = css({
-  display: "grid",
-  gridTemplateColumns: "1fr 1fr 1fr",
-  justifyItems: "center",
-});
-
-const errorStyle = css({ alignSelf: "start !important" });
+import { gridStyleFindRecipesPage as gridStyle, errorStyle } from "../styles";
 
 const URL_RECIPES = "http://localhost:3001";
 const URL_INGREDIENTS = "http://localhost:3001";

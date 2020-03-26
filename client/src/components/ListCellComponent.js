@@ -4,8 +4,6 @@ import { omit } from "ramda";
 import classnames from "classnames";
 import { css } from "glamor";
 
-import { t } from "../translationKeys";
-
 import Ingredient from "./Ingredient/IngredientComponent";
 
 const cellStyle = css({

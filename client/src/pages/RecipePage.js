@@ -4,8 +4,6 @@ import { Eclipse } from "react-loading-io";
 import { isEmpty } from "ramda";
 import { css } from "glamor";
 
-import { t } from "../translationKeys";
-
 import ListCell from "../components/ListCellComponent";
 
 const centerStyle = css({
@@ -54,7 +52,7 @@ class RecipePage extends React.Component {
 
   renderGoBackButton = backupState => (
     <button className="button is-link is-outlined" onClick={this.handleGoBack}>
-      Back to all recipes
+      Zurück zu allen Rezepten
     </button>
   );
 

@@ -1,8 +1,6 @@
 import React from "react";
 import { css } from "glamor";
 
-import { t } from "../../translationKeys";
-
 const ingredientListCellStyle = css({
   display: "grid",
   gridTemplateColumns: "10fr 6fr 4fr 1fr",
@@ -46,12 +44,12 @@ class IngredientComponent extends React.PureComponent {
             type="number"
             step={numberInputStep}
             min="0"
-            placeholder="amount"
+            placeholder="Menge"
             onChange={this.handleChange(name, onChange)}
           />
         </div>
         <label htmlFor={name}>{measureLabel}</label>
-        <button className="delete" onClick={onRemove(name)}></button>
+        <button className="delete" onClick={onRemove(name)} />
       </div>
     );
   }

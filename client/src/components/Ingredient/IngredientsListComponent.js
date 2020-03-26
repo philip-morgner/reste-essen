@@ -1,9 +1,19 @@
 import React from "react";
 import { times } from "ramda";
-
-import { t } from "../../translationKeys";
+import { css, media } from "glamor";
 
 import ListCell from "../ListCellComponent";
+
+const flexStyle = css(
+  {
+    display: "flex",
+    justifyContent: "space-between",
+  },
+  media("(max-width: 800px)", {
+    flexDirection: "column",
+    alignItems: "center",
+  })
+);
 
 class IngedientsListComponent extends React.PureComponent {
   renderEmptyListCell = i => <ListCell key={i} isEmpty />;
@@ -37,16 +47,14 @@ class IngedientsListComponent extends React.PureComponent {
           {this.renderSummary(availableIngr)}
           {this.renderListStructure(previewListLength)}
         </div>
-        <button
-          className="button is-link is-pulled-left"
-          onClick={onSubmit("explore")}>
-          {t("explore")}
-        </button>
-        <button
-          className="button is-success is-pulled-right"
-          onClick={onSubmit("exact")}>
-          {t("exact")}
-        </button>
+        <div className={flexStyle}>
+          <button className="button is-link" onClick={onSubmit("explore")}>
+            Entdecke Rezepte
+          </button>
+          <button className="button is-success" onClick={onSubmit("exact")}>
+            Finde passende Rezepte
+          </button>
+        </div>
       </div>
     );
   }

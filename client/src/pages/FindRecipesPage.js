@@ -131,10 +131,13 @@ class FindRecipesPage extends React.Component {
   };
 
   renderErrorNotification = () => (
-    <div className={classnames("notification is-danger", `${errorStyle}`)}>
-      <button className="delete" onClick={this.dismissError}></button>
-      There are no recipes available with your ingredients,
-      <strong> better buy some more stuff!</strong> Or check your fridge :)
+    <div className={classnames("notification is-info", `${errorStyle}`)}>
+      <button className="delete" onClick={this.dismissError} />
+      Es sind keine Rezepte mit den eingegebenen Zutaten und Mengen verfügbar.{" "}
+      <strong>
+        Bitte prüfe, ob du alle deine Zutaten und dessen Mengen eingegeben hast.{" "}
+      </strong>
+      Ansonsten, guck nochmal in den Kühlschrank oder geh einkaufen!
     </div>
   );
 

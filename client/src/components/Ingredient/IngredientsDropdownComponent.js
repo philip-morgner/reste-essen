@@ -2,8 +2,6 @@ import React from "react";
 import classnames from "classnames";
 import { css } from "glamor";
 
-import { t } from "../../translationKeys";
-
 const adjustWidth = css({
   width: "30vw",
 });

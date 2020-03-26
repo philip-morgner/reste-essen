@@ -1,8 +1,6 @@
 import React from "react";
 import classnames from "classnames";
 
-import { t } from "../../translationKeys";
-
 class RecipeListFilterComponent extends React.PureComponent {
   renderButton = (value, onClick, isSelected, i) => (
     <p key={i} className="control">

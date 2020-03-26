@@ -1,7 +1,7 @@
 import React from "react";
 import { css, media } from "glamor";
 
-import { init } from "../translationKeys";
+// import { init } from "../translationKeys";
 import { titleStyle } from "../styles";
 
 import german from "../country_flags/Flag_of_Germany.svg";
@@ -35,7 +35,8 @@ const imgStyle = css(
 
 class Init extends React.PureComponent {
   handleClick = lang => () => {
-    init(lang);
+    console.log(lang);
+    // init(lang);
     this.props.history.push("/home");
   };
 

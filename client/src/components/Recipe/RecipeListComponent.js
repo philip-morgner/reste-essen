@@ -3,8 +3,6 @@ import { isEmpty } from "ramda";
 import classnames from "classnames";
 import { css } from "glamor";
 
-import { t } from "../../translationKeys";
-
 import ListCell from "../ListCellComponent";
 import RecipeListFilter from "./RecipeListFilterComponent";
 

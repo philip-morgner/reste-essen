@@ -12,7 +12,7 @@ import {
   flexColumnStyle,
 } from "../styles";
 
-const GET_RECIPE_URL = "http://localhost:3001/";
+const GET_RECIPE_URL = "http://www.mabiphmo.de:3001/";
 
 class RecipePage extends React.Component {
   state = { recipe: {}, goBack: false };
@@ -27,8 +27,10 @@ class RecipePage extends React.Component {
     const specificRecipeUrl = GET_RECIPE_URL + recipeId;
 
     const recipe = await fetch(specificRecipeUrl)
-      .then(data => data.json())
-      .catch(err => console.log("ERROR in server communication", err.message));
+      .then((data) => data.json())
+      .catch((err) =>
+        console.log("ERROR in server communication", err.message)
+      );
 
     this.setState({ recipe });
   }
@@ -37,20 +39,20 @@ class RecipePage extends React.Component {
     this.setState({ goBack: true });
   };
 
-  renderGoBackButton = backupState => (
+  renderGoBackButton = (backupState) => (
     <button className="button is-link is-outlined" onClick={this.handleGoBack}>
       Zurück zu allen Rezepten
     </button>
   );
 
-  renderIngredients = ingredients =>
+  renderIngredients = (ingredients) =>
     ingredients.map(({ name, amount, measure }, i) => {
       const prettyAmount =
         measure === "absolute" ? `${amount} Stück` : `${amount}${measure}`;
       return <ListCell key={i} value={{ name, prettyAmount }} isRecipeCell />;
     });
 
-  renderRedirect = backupState => (
+  renderRedirect = (backupState) => (
     <Redirect to={{ pathname: "/find-recipe", state: backupState }} />
   );
 

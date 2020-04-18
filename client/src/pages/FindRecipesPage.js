@@ -1,7 +1,6 @@
 import React from "react";
 import { Eclipse } from "react-loading-io";
 import { isEmpty, pathOr } from "ramda";
-import { css } from "glamor";
 import classnames from "classnames";
 
 import { postData } from "../utils/postData";

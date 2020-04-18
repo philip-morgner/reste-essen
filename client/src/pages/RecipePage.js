@@ -2,7 +2,6 @@ import React from "react";
 import { Redirect } from "react-router-dom";
 import { Eclipse } from "react-loading-io";
 import { isEmpty } from "ramda";
-import { css } from "glamor";
 
 import ListCell from "../components/ListCellComponent";
 

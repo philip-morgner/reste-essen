@@ -12,8 +12,8 @@ import RecipeList from "../components/Recipe/RecipeListComponent";
 
 import { gridStyleFindRecipesPage as gridStyle, errorStyle } from "../styles";
 
-const URL_RECIPES = "http://localhost:3001";
-const URL_INGREDIENTS = "http://localhost:3001";
+const URL_RECIPES = "http://www.mabiphmo.de:3001";
+const URL_INGREDIENTS = "http://www.mabiphmo.de:3001";
 
 class FindRecipesPage extends React.Component {
   state = {
@@ -29,7 +29,9 @@ class FindRecipesPage extends React.Component {
   async componentDidMount() {
     // (1) fetch ingredients for suggestions in dropdown
     try {
-      let ingredients = await fetch(URL_INGREDIENTS).then(data => data.json());
+      let ingredients = await fetch(URL_INGREDIENTS).then((data) =>
+        data.json()
+      );
 
       this.setState({ ingredients });
     } catch (err) {
@@ -68,18 +70,18 @@ class FindRecipesPage extends React.Component {
     }
   }
 
-  handleInputChange = text => {
+  handleInputChange = (text) => {
     this.setState({ text });
   };
 
-  handleDropdownClick = ingredient => {
-    this.setState(prev => ({
+  handleDropdownClick = (ingredient) => {
+    this.setState((prev) => ({
       availableIngr: [...prev.availableIngr, { ...ingredient, amount: 0 }],
       text: "",
     }));
   };
 
-  handleSubmit = mode => async () => {
+  handleSubmit = (mode) => async () => {
     const { availableIngr } = this.state;
     const body = JSON.stringify({
       ingredients: availableIngr,
@@ -107,15 +109,15 @@ class FindRecipesPage extends React.Component {
   };
 
   handleAmountInput = (name, amount) => {
-    this.setState(prev => ({
-      availableIngr: prev.availableIngr.map(elem =>
+    this.setState((prev) => ({
+      availableIngr: prev.availableIngr.map((elem) =>
         elem.name === name ? { ...elem, amount } : elem
       ),
     }));
   };
 
-  handleRemoveItem = value => () => {
-    this.setState(prev => ({
+  handleRemoveItem = (value) => () => {
+    this.setState((prev) => ({
       availableIngr: prev.availableIngr.filter(({ name }) => name !== value),
     }));
   };

@@ -11,8 +11,8 @@ import RecipeList from "../components/Recipe/RecipeListComponent";
 
 import { gridStyleFindRecipesPage as gridStyle, errorStyle } from "../styles";
 
-const URL_RECIPES = "http://www.mabiphmo.de:3001";
-const URL_INGREDIENTS = "http://www.mabiphmo.de:3001";
+const URL_RECIPES = "https://food.mabiphmo.de:3001";
+const URL_INGREDIENTS = "https://food.mabiphmo.de:3001";
 
 class FindRecipesPage extends React.Component {
   state = {

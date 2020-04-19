@@ -11,7 +11,7 @@ import {
   flexColumnStyle,
 } from "../styles";
 
-const GET_RECIPE_URL = "http://www.mabiphmo.de:3001/";
+const GET_RECIPE_URL = "https://food.mabiphmo.de:3001/";
 
 class RecipePage extends React.Component {
   state = { recipe: {}, goBack: false };

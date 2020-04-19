@@ -1,12 +1,13 @@
 const https = require("https");
+const express = require("express");
 const fs = require("fs");
-const cors = require("cors");
 const bodyParser = require("body-parser");
+const cors = require("cors");
 
-const recipes = require("./recipes.json");
 const config = require("./config.json");
+const recipes = require("./recipes.json");
 
-const options = {
+const credentials = {
   key: fs.readFileSync(config.ssl.key),
   cert: fs.readFileSync(config.ssl.cert),
 };

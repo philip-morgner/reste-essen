@@ -11,6 +11,6 @@
   },
   "scripts": {
     "start": "node index.js",
-    "start --secure": "node https.js"
+    "https_start": "node https.js"
   }
 }
